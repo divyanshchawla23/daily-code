@@ -1,46 +1,52 @@
 class Solution {
 public:
-    void merge(vector<int>& arr1, int n, vector<int>& arr2, int m) {
-         int arr3[n + m];
-    int left = 0;
-    int right = 0;
-
-    int index = 0;
-
-    //Insert the elements from the 2 arrays
-    // into the 3rd array using left and right
-    // pointers:
-
-    while (left < n && right < m) {
-        if (arr1[left] <= arr2[right]) {
-            arr3[index] = arr1[left];
-            left++, index++;
-        }
-        else {
-            arr3[index] = arr2[right];
-            right++, index++;
+    void swapIfGreater(vector<int>& nums1, vector<int>& nums2, int n, int m) {
+        // Swap if the element in nums1 is greater than the element in nums2
+        if (nums1[n] > nums2[m]) {
+            swap(nums1[n], nums2[m]);
         }
     }
 
-    // If right pointer reaches the end:
-    while (left < n) {
-        arr3[index] = arr1[left];
-        index++;
-        left++;
-    }
-
-    // If left pointer reaches the end:
-    while (right < m) {
-        arr3[index] = arr2[right];
-        index++;
-        right++;
-    }
-
-    // Fill back the elements from arr3[]
-    // to arr1[] and arr2[]:
-    for (int i = 0; i < n + m; i++) {
-            arr1[i] = arr3[i];
+    void merge(vector<int>& nums1, int n, vector<int>& nums2, int m) {
+        // Resize nums1 to fit both arrays
+        nums1.resize(n + m);
+        for (int i = n; i < n + m; ++i) {
+            nums1[i] = nums2[i - n];
         }
-}
-    
+
+        // Use the gap method to sort the combined array
+        int len = n + m;
+        int gap = (len / 2) + (len % 2);
+
+        while (gap > 0) {
+            int left = 0;
+            int right = left + gap;
+
+            while (right < len) {
+                if (right < n) {
+                    // Both pointers in nums1
+                    if (nums1[left] > nums1[right]) {
+                        swap(nums1[left], nums1[right]);
+                    }
+                } else if (left < n) {
+                    // left in nums1, right in nums2 (actually in the combined nums1)
+                    if (nums1[left] > nums1[right]) {
+                        swap(nums1[left], nums1[right]);
+                    }
+                } else {
+                    // Both pointers in nums2 (actually in the combined nums1)
+                    if (nums1[left] > nums1[right]) {
+                        swap(nums1[left], nums1[right]);
+                    }
+                }
+                left++;
+                right++;
+            }
+
+            if (gap == 1) {
+                break;
+            }
+            gap = (gap / 2) + (gap % 2);
+        }
+    }
 };
