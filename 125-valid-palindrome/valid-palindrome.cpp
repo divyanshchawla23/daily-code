@@ -1,24 +1,27 @@
 class Solution {
 public:
 
-    bool check(int i,int n,vector<char>& ans){
-        if(i>=n/2){
-            return true;
-        }
-        if(ans[i]==ans[n-i-1]){
-            return check(i+1,n,ans);
-        }
-        return false;
-    }
+    bool check(vector<char>&s,int n, int i){
 
+        if(i>=n/2) return true;
+        if(s[i]!=s[n-i-1]) return false;
+        return check(s,n,i+1);
+        
+    }
     bool isPalindrome(string s) {
+
         vector<char>ans;
-        for(char c : s){
-            if(isalnum(c)){
-                ans.push_back(tolower(c));
-            }
+
+        for(auto it : s){
+            if(isalnum(it)){
+                ans.push_back(tolower(it));
+            } 
         }
+
+        int i =0;
         int n = ans.size();
-        return check(0,n,ans);
+
+         return check (ans,n,i);
+        
     }
 };
