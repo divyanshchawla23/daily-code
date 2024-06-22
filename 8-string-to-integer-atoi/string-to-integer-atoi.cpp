@@ -27,10 +27,11 @@ public:
         if(s[i]==' ' || !isdigit(s[i])) break;
 
         ans = (ans *10) + (s[i]-'0');
+        i++;
 
         if(sign == 1 && ans>maxi) return maxi;
         if(sign == -1 && (-1*ans)<mini) return mini;
-        i++;
+        
 
 
        }
