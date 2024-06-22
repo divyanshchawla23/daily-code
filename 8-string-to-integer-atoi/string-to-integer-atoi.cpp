@@ -15,15 +15,16 @@ public:
        s= s.substr(i);
        int sign = 1;
        long ans =0;
+       i=0;
 
        if(s[0]=='-') sign=-1;
        if(s[0]=='-' ||s[0]=='+'){
         i=1;
        }
-       else i =0;
+       
 
        while(i<s.size()){
-        if(s[0]==' ' || !isdigit(s[i])) break;
+        if(s[i]==' ' || !isdigit(s[i])) break;
 
         ans = (ans *10) + (s[i]-'0');
 
