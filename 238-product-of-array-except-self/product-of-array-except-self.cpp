@@ -2,28 +2,22 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
-        vector<int> left(n, 1); 
+        vector <int > res(n ,1);
 
-        // Compute the left products
-        for (int i = 1; i < n; i++) {
-            left[i] = left[i - 1] * nums[i - 1];
-        }
+        //calculate the left prefix;
 
-        vector<int> right(n, 1); 
-
-        // Compute the right products
-        for (int i = n-2; i >=0; i--) {
-            right[i] = right[i + 1] * nums[i + 1];
+        for(int i =1 ;i<n;i++){
+            res[i]= nums[i-1]* res[i-1];
         }
         
-        vector<int > ans ;
+        //calculate right suffix and multiply 
 
-        for( int i =0;i<n ; i++){
-            ans.push_back(left[i]*right[i]);
+        int right = 1;
+
+        for(int i = n-1 ;i>=0;i--){
+            res[i]= res[i]*right;
+            right = right * nums[i];
         }
-
-        return ans ;
-        
-        
+        return res;
     }
 };
