@@ -1,30 +1,41 @@
 class Solution {
 public:
     int trap(vector<int>& nums) {
-       int n =  nums.size();
+        int n = nums.size();
+        int left =0;
+        int right =n-1;
+        int leftmax =0;
+        int rightmax = 0;
+        int res = 0;
 
-       vector<int> prefix(n);
-       vector<int> suffix(n);
 
-       prefix[0]= nums[0];
+        while(left<=right){
 
-       for(int i =1;i<n;i++){
-    
-        prefix[i]= max(prefix[i-1],nums[i]);
-       }
+            if(nums[left]<=nums[right]){
 
-        suffix[n-1]=nums[n-1];
-       for(int i =n-2;i>=0;i--){
-       
-        suffix[i]= max(suffix[i+1],nums[i]);
-       }
+                leftmax =max(leftmax,nums[left]);
 
-       long long  water =0;
-       for(int i =0;i<n;i++){
-        water+= min(prefix[i],suffix[i])- nums[i];
-       }
+              //  if(nums[left]>=leftmax) leftmax = nums[left];
 
-       return water;
-       
+                 res+= leftmax - nums[left];
+
+            left++;
+            }
+
+
+            else{
+
+              // if(nums[right]>=rightmax) rightmax = nums[right];
+                rightmax = max(rightmax,nums[right]);
+
+                 res+= rightmax - nums[right];
+
+            right--; 
+            }   
+
+        
+
+        }
+        return res;
     }
 };
