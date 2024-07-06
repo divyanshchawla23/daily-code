@@ -10,7 +10,7 @@ public:
 
             while((right -left +1 ) - maxfreq> k){
                 mpp[s[left]]--;
-                maxfreq= 0;
+               // maxfreq= 0;
                 for(auto it : mpp){
                     maxfreq = max(maxfreq, it.second);
                 }
