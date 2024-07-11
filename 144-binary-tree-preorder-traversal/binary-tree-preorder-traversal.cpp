@@ -17,9 +17,9 @@ public:
         }
         ans.push_back(root->val);
 
-        helper(root->left,ans);
+         if (root->left!= NULL) helper(root->left,ans);
 
-        helper(root->right,ans);
+        if (root->right!= NULL) helper(root->right,ans);
 
     }
     vector<int> preorderTraversal(TreeNode* root) {
