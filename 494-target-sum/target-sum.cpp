@@ -1,9 +1,8 @@
 class Solution {
+    int dp[21][1001];
 public:
     int  helper(vector<int> nums , int k , int n){
 
-	
-    vector<vector<int>> dp(n + 1, vector<int>(k + 1, 0));
     for (int i = 0; i <= n; i++) {
 		for (int j = 0; j <= k; j++) {
 			if (i == 0) 
