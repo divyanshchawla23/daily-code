@@ -18,7 +18,7 @@ public:
         for (int j = 0; j < k+1; j++)
         {
             if (nums[i - 1] <= j) {
-              dp[i][j] = (dp[i - 1][j - nums[i - 1]] + dp[i - 1][j])%1000000007;
+              dp[i][j] = (dp[i - 1][j - nums[i - 1]] + dp[i - 1][j]);
             }
 
             else
