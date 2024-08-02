@@ -1,9 +1,8 @@
 class Solution {
 public:
     int t[2002][2002];
-    bool ispallindrome(string &s,int i,int j){
-        int st=i;
-        int e=j;
+    bool ispallindrome(string &s,int st,int e){
+        
         while(st<e){
             if(s[st]!=s[e])return false;
             st++;
