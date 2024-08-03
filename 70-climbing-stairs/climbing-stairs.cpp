@@ -1,31 +1,16 @@
 class Solution {
 public:
-    
-    // memoization
-    
-    vector<int> dp;
-    
-    int fun(int n)
-    {
-        if(n<0)
-            return 0;
+        int dp[46];
+    int climbStairs(int n) {
+        if (n <= 1) return 1;
         
-        if(n==0)
-            return 1;
+        dp[0] = 1; // Base case: 1 way to climb 0 stairs (do nothing)
+        dp[1] = 1; // Base case: 1 way to climb 1 stair
+
+        for (int i = 2; i <= n; ++i) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
         
-        if(dp[n]!=-1)
-            return dp[n];
-        
-        int num1 = fun(n-1);
-        int num2 = fun(n-2);
-        
-        return dp[n] = num1 + num2;
-    }
-    
-    int climbStairs(int n) 
-    {
-        dp.clear();
-        dp.resize(n+1,-1);
-        return fun(n);
+        return dp[n];
     }
 };
