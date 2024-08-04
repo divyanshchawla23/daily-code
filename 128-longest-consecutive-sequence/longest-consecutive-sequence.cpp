@@ -5,7 +5,7 @@ public:
 
         sort(nums.begin(), nums.end());
         int longest =1 ;
-        int cnt = 0;
+        int cnt = 1;
         int lastsmallest = INT_MIN;
 
         if (nums.size()==0){
