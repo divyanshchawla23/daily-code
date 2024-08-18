@@ -11,15 +11,17 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root, vector<int> &ans){
-        if(root==NULL) return ;
-        inorder(root->left , ans);
+    void inorder(TreeNode* root,vector<int> &ans)
+    {
+        if(!root) return;
+        inorder(root->left,ans);
         ans.push_back(root->val);
-        inorder(root->right , ans);
+        inorder(root->right,ans);
     }
     bool findTarget(TreeNode* root, int k) {
         vector<int> ans;
-        inorder(root ,ans);
+        inorder(root,ans);
+
         int i =0;
         int j = ans.size()-1;
 
@@ -27,7 +29,9 @@ public:
             if(ans[i]+ans[j]==k) return true;
             else if(ans[i]+ans[j]>k) j--;
             else i++;
+            
         }
         return false;
+        
     }
 };
