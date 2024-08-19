@@ -1,83 +1,56 @@
 class Solution {
-public:
-
-    int binarySearch(vector<int>& nums, int start, int end , int target){
-
-        while(start<=end){
-
-            int mid =(start+end)/2;
-
-            if(nums[mid]==target){
-                return mid;
-            }
-
-            else if (target>=nums[mid]){
-                start = mid +1;
-            }
-
-            else if (target<=nums[mid]){
-
-                end = mid -1 ;
-
-            }
-
-        }
-            return -1 ;
-
-    }
-
-    int minIndex(vector<int>& nums){
+private:
+    int index(vector<int>& nums){
         int n = nums.size();
-        int start = 0;
-        int end = n-1;
+        int low =0;
+        int high = n-1;
 
-        while(start<=end){
+        while(low<=high){
+            int mid = (low+high) /2;
+            int next = (mid+1) %n;
+            int prev = (mid+n-1) %n;
 
-            int mid = (start+end)/2;
+            if(nums[low]<=nums[high]) return low;
 
-            int next =(mid+1)%n; 
-            int prev =(mid+n-1)%n;
+            else if(nums[mid]<=nums[prev] && nums[mid]<=nums[next]) return mid;
 
-            if (nums[start]<=nums[end]){
-                return start;
-            }
-
-            else if(nums[mid]<=nums[next] && nums[mid]<=nums[prev]){
-                return mid;
-            }
-
-            else if(nums[start]<=nums[mid] ){
-                start = mid +1;
-            }
+            else if(nums[low]<=nums[mid]) low = mid+1;
             
-            else if(nums[mid]<=nums[end]){
-                end = mid - 1;
-            }
-
+            else if(nums[mid]<=nums[high]) high = mid-1;
         }
+
         return -1;
 
     }
-    int search(vector<int>& nums, int target) {
 
-        int minindex1 = minIndex(nums);
+    int bs(vector<int> nums, int low, int high, int x){
 
-        int ans1 = binarySearch(nums, 0, minindex1-1 , target);
+        while(low<=high){
+            int mid = (low + high) /2;
 
-        if(ans1 != -1){
-            return ans1;
+            if(nums[mid]==x) return mid;
+
+            else if(nums[mid]>x) high = mid -1;
+
+            else low = mid +1 ;
         }
 
-        int ans2 = binarySearch( nums, minindex1, nums.size()-1 , target);
+        return -1;
+    }
+public:
+    int search(vector<int>& nums, int target) {
+        int minIndex = index(nums);
+        int n = nums.size();
+
+        int ans1 = bs(nums,0,minIndex-1,target);
+        int ans2 = bs(nums,minIndex,n-1,target);
+
+        if(ans1!=-1) return ans1;
+        if(ans2!=-1) return ans2;
+
+
+        return -1;
 
         
-        if(ans2 != -1){
-            return ans2;
-        }
-
-
-        return -1 ;
-
-    
     }
 };
