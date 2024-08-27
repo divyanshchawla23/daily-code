@@ -1,19 +1,16 @@
-class mycom
- {
-     public:
-     bool operator()(pair<int,int> const &p1,pair<int,int>p2 )
-     {
-         if(p1.first==p2.first)
-         {
-             return p2.second>p1.second;
-         }
-         return p1.first>p2.first;
-     }
- };
-
-
 class Solution {
+
 public:
+    struct mycom{
+        bool operator()(pair<int,int> const &p1,pair<int,int>p2 )
+        {
+            if(p1.first==p2.first)
+            {
+                return p2.second>p1.second;
+            }
+            return p1.first>p2.first;
+        }
+    };
     vector<int> frequencySort(vector<int>& nums) {
 
         vector <int> ans ;
