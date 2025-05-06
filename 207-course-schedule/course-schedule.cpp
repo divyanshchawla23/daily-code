@@ -23,7 +23,7 @@ public:
         vector<vector<int>> adj(n);
 
         for (int i = 0; i < prerequisites.size(); i++) {
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
         }
 
         vector<int> vis(n, 0);
