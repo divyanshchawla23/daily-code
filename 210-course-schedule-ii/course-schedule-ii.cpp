@@ -1,47 +1,48 @@
 class Solution {
-public:
-    vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(n);
+private:
+    void topoSort(int n,vector<vector<int>> &adj,vector<int>&topo){
 
-        for (int i = 0; i < prerequisites.size(); i++) {
-            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
-        }
-
-        vector<int> inD(n);
-        vector<int> topo;
+        vector<int> inDegree(n);
 
         queue<int> q;
 
-        for(int i =0;i<n;i++){
-            for(auto it : adj[i]){
-                inD[it]++;
+        for(auto adjacent: adj){
+            for(auto it : adjacent){
+                inDegree[it]++;
             }
-
         }
-        for(int i =0;i<n;i++){
-            if(inD[i]==0){
-                q.push(i);
-            }
 
+        for(int i =0;i<inDegree.size();i++){
+            if(inDegree[i]==0) q.push(i);
         }
 
         while(!q.empty()){
             int node = q.front();
             q.pop();
             topo.push_back(node);
-            for(auto it: adj[node]){
-                inD[it]--;
-                if(inD[it]==0){
-                    q.push(it);
-                }
+
+            for(auto it:adj[node]){
+
+                inDegree[it]--;
+                if(inDegree[it]==0) q.push(it);
             }
         }
 
-        
+    }
+public:
+    vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(n);
 
-        if(topo.size()==n)return topo;
+        for(auto it: prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+
+        vector<int> topo;
+
+        topoSort(n,adj,topo);
+
+
+        if(topo.size()==n)   return topo;
         else return {};
-
-
     }
 };
