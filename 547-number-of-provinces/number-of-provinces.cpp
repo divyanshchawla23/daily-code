@@ -1,37 +1,61 @@
-class Solution {
-private:
-void dfs(int node,vector<int>& vis, vector<vector<int>>& adj, int n) {
+class DisjointSet{
+    vector<int> size,parent;
 
-    vis[node]=1;
+    public:
 
-    for(auto it : adj[node]){
-        if(!vis[it]){
-            dfs(it,vis,adj,n);
+        DisjointSet(int n){
+            size.resize(n+1,1);
+            parent.resize(n+1);
+            for(int i =0;i<=n;i++){
+                parent[i]=i;
+            }
         }
-    }
 
-    
-}
-public: 
+        int findUlt(int n){
+            if(parent[n]==n){
+                return n;
+            }
+            return parent[n]=findUlt(parent[n]);
+        }
+
+        void unionBySize(int u , int v){
+
+            int ult_u = findUlt(u); 
+            int ult_v = findUlt(v); 
+
+            if(ult_u==ult_v) return;
+
+            if(ult_u<ult_v){
+                size[ult_v]+=size[ult_u];
+                parent[ult_u]=ult_v;
+            }else{
+                size[ult_u]+=size[ult_v];
+                parent[ult_v]=ult_u;
+            }
+
+        }
+};
+
+
+class Solution {
+public:
     int findCircleNum(vector<vector<int>>& isConnected) {
+
         int n = isConnected.size();
-        vector<vector<int>> adj(n + 1);
-        for (int i = 0; i < isConnected.size(); i++) {
-            for (int j = 0; j < isConnected[i].size(); j++) {
-                if (isConnected[i][j] && i!=j) {
-                    adj[i + 1].push_back(j + 1);
-                    adj[j + 1].push_back(i + 1);
+        DisjointSet ds(n);
+        vector<vector<int>> edges;
+        for(int i =0;i<n;i++){
+            for(int j =0;j<n;j++){
+                if(i!=j && isConnected[i][j]==1){
+                    ds.unionBySize(i,j);
                 }
             }
         }
 
-        int cnt = 0;
+        int cnt =0;
 
-        vector<int> vis(n + 1, 0);
-
-        for (int i = 1; i <= n; i++) {
-            if(!vis[i]){
-                dfs(i,vis, adj, n);
+        for(int i =0;i<n;i++){
+            if(ds.findUlt(i)==i){
                 cnt++;
             }
         }
