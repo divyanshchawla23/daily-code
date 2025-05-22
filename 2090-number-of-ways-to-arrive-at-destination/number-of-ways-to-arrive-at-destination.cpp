@@ -12,10 +12,10 @@ public:
         }
 
         vector<long long> dis(n,LLONG_MAX);
-        vector<int> vis(n,0);
+        vector<int> ways(n,0);
 
         dis[0]= 0;
-        vis[0]= 1;
+        ways[0]= 1;
 
 
         // {dis,node}
@@ -33,16 +33,16 @@ public:
                 if(sum<dis[it.first]){
                     dis[it.first]= sum;
                     pq.push({sum,it.first});
-                    vis[it.first] = vis[node];
+                    ways[it.first] = ways[node];
                 }
                 else if(sum ==dis[it.first]){
                    
-                    vis[it.first] = (vis[it.first] + vis[node]) % mod;
+                    ways[it.first] = (ways[it.first] + ways[node]) % mod;
                 }
             }
         }
 
-        return (vis[n-1] % mod);
+        return (ways[n-1] % mod);
 
 
     }
