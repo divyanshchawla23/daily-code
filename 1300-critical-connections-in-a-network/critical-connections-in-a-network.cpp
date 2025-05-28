@@ -1,7 +1,7 @@
 class Solution {
 private:
     void dfs(int node,int parent,vector<int>&vis,vector<vector<int>>&adj,
-    vector<int>&tm,vector<int>&lowtm,vector<vector<int>>&ans, int &timer){
+    vector<int>&tm,vector<int>&lowtm,vector<vector<int>>&ans, int timer){
 
         vis[node]=1;
         tm[node]=lowtm[node]=timer;
@@ -25,11 +25,13 @@ private:
     }
 public:
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+
+        static int timer = 1;
         vector<vector<int>> ans;
         vector<int> tm(n);
         vector<int> lowtm(n);
         vector<int> vis(n);
-        int timer = 1;
+        // int timer = 1;
         vector<vector<int>> adj(n);
         for(auto it: connections){
             adj[it[0]].push_back(it[1]);
