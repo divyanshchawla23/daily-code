@@ -47,7 +47,7 @@ public:
         string result = "";
         for (char ch : baseStr) {
             int smallest_equiv = ds.findUParent(ch - 'a');
-            result += (char)(smallest_equiv + 'a');
+            result += (smallest_equiv + 'a');
         }
 
         return result;
