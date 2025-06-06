@@ -1,17 +1,4 @@
 class Solution {
-private:
-    bool f(int sum, int index, vector<int>& nums,vector<vector<int>> &dp){
-        if(index == 0) return (nums[0]==sum);
-        if(sum==0) return true;
-
-        if(dp[index][sum]!=-1) return dp[index][sum];
-
-        bool notTake = f(sum,index-1,nums,dp);
-        bool take = false;
-        if(sum>=nums[index]) take = f(sum-nums[index],index-1,nums,dp);
-
-        return dp[index][sum] = (notTake||take);
-    }
 public:
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
@@ -19,11 +6,26 @@ public:
         for(int i =0;i<n;i++){
             sum+= nums[i];
         }
-        vector<vector<int>> dp(n,vector<int>(sum/2+1,-1));
+        vector<vector<bool>> dp(n,vector<bool>(sum/2+1,false));
         if(sum%2!=0) return false ;
-        
-        else return f(sum/2,n-1,nums,dp);
+        else{
+            for(int i =0;i<n;i++){
+                dp[i][0]=true;
+            }
+            if (nums[0] <= sum/2) dp[0][nums[0]] = true;
 
-        //for()
+            for(int i =1;i<n;i++){
+                for(int j =1;j<=sum/2;j++){
+                    bool notTake = dp[i-1][j];
+                    bool take = false;
+                    if(j>=nums[i]) take = dp[i-1][j-nums[i]];
+                    
+                    dp[i][j] = (notTake||take);
+                }
+            }
+            return dp[n-1][sum/2];
+
+        }
+
     }
 };
