@@ -1,47 +1,27 @@
 class Solution {
+private:
+    bool f(int sum, int index, vector<int>& nums,vector<vector<int>> &dp){
+        if(index == 0) return (nums[0]==sum);
+        if(sum==0) return true;
+
+        if(dp[index][sum]!=-1) return dp[index][sum];
+
+        bool notTake = f(sum,index-1,nums,dp);
+        bool take = false;
+        if(sum>=nums[index]) take = f(sum-nums[index],index-1,nums,dp);
+
+        return dp[index][sum] = (notTake||take);
+    }
 public:
-
-bool helper(vector<int> &nums, int n , int sum){
-
-    int dp[n+1][sum+1];
-    memset(dp,0,sizeof(dp));
-
-   
-    for (int i = 0; i <= n; i++)
-    {
-        for (int j = 0; j <= sum; j++)
-        {
-            if(i==0) dp[i][j] = false;
-            if(j==0) dp[i][j] = true;
-        }
-        
-    }
-
-
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= sum; j++)
-        {
-            if(nums[i-1]<=j){
-                dp[i][j] = dp[i-1][j-nums[i-1]] || dp[i-1][j];
-            }
-            else dp[i][j] =  dp[i-1][j];
-        }
-        
-    }
-    return dp[n][sum];
-    
-
-
-
-}
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
         int sum = 0;
         for(int i =0;i<n;i++){
             sum+= nums[i];
         }
+        vector<vector<int>> dp(n,vector<int>(sum+1,-1));
         if(sum%2!=0) return false ;
-        else return helper(nums, n , sum/2);
+        
+        else return f(sum/2,n-1,nums,dp);
     }
 };
