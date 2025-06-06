@@ -19,9 +19,11 @@ public:
         for(int i =0;i<n;i++){
             sum+= nums[i];
         }
-        vector<vector<int>> dp(n,vector<int>(sum+1,-1));
+        vector<vector<int>> dp(n,vector<int>(sum/2+1,-1));
         if(sum%2!=0) return false ;
         
         else return f(sum/2,n-1,nums,dp);
+
+        //for()
     }
 };
