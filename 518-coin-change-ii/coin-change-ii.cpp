@@ -1,36 +1,28 @@
 class Solution {
-public:
-    
-    int helper(vector<int> & coins , int sum, int n){
-        int dp[n+1][sum+1];
-        for(int i =0;i<n+1;i++){
-            for(int j=0 ;j<sum+1;j++){
-                if(i==0) dp[i][j] = 0;
-                if(j==0) dp[i][j] = 1;
-            }
+private:
+    int f(int n, int target, vector<int>&coins,vector<vector<int>> &dp){
+        //base case
+        if(target==0) return 1;
 
-        }
-        for(int i =1;i<n+1;i++){
-            for(int j=1 ;j<sum+1;j++){
-                
-                if(j>=coins[i-1]){
-                    dp[i][j]= dp[i][j-coins[i-1]] + dp[i-1][j];
+        if(n==0){
+            if(target%coins[0]==0) return 1;
+            else return 0;
+        } 
 
-                }
-                else
-                dp[i][j]=  dp[i-1][j];
-            }
+        if(dp[n][target]!=-1) return dp[n][target];
 
-        }
+        long notPick = f(n-1,target,coins,dp);
 
-        return dp[n][sum];
+        long pick =0;
+        if(target>=coins[n]) pick = f(n,target-coins[n],coins,dp);
 
-
-
+        return dp[n][target] = pick+notPick;
     }
-    
+public:
     int change(int amount, vector<int>& coins) {
-       int n = coins.size();
-        return helper(coins , amount, n); 
+        int n = coins.size();
+        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
+
+        return f(n-1,amount,coins,dp);
     }
 };
