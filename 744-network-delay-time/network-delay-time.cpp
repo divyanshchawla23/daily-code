@@ -7,14 +7,14 @@ public:
             adj[it[0]].push_back({it[1],it[2]});
         }
 
-        priority_queue<pair<int,int>,vector <pair<int,int>>,greater<pair<int,int>>    >pq;
+        queue<pair<int,int>    >pq;
         vector<int> dis(n+1,INT_MAX);
         dis[k]=0;
         pq.push({0,k});
 
         while(!pq.empty()){
-            int node = pq.top().second;
-            int time = pq.top().first;
+            int node = pq.front().second;
+            int time = pq.front().first;
             pq.pop();
 
             
