@@ -24,23 +24,34 @@ public:
         int i = n - 1, j = m - 1;
 
         while (i >= 0 && j >= 0) {
-            if (str1[i] == str2[j]) {
-                ans += str1[i];
-                i--;
-                j--;
-            } else {
-                int a = (i > 0) ? dp[i - 1][j] : 0;
-                int b = (j > 0) ? dp[i][j - 1] : 0;
-
-                if (a > b) {
-                    ans += str1[i];
-                    i--;
-                } else {
-                    ans += str2[j];
-                    j--;
-                }
-            }
+        if (str1[i] == str2[j]) {
+            ans += str1[i];
+            i--;
+            j--;
+        } else if (i == 0) {
+            ans += str2[j];
+            j--;
+        } else if (j == 0) {
+            ans += str1[i];
+            i--;
+        } else if (dp[i - 1][j] > dp[i][j - 1]) {
+            ans += str1[i];
+            i--;
+        } else {
+            ans += str2[j];
+            j--;
         }
+    }
+
+    while (i >= 0) {
+        ans += str1[i];
+        i--;
+    }
+
+    while (j >= 0) {
+        ans += str2[j];
+        j--;
+    }
 
         while (i >= 0) {
             ans += str1[i];
