@@ -1,26 +1,29 @@
 class Solution {
-public:
-    int dp[501][501];
+private:
+    int f(int n, int m , string s, string t,vector<vector<int>>&dp){
 
-    int helper(string s1 , string s2 , int n , int m){
-        if(n==0) return m;
-        if(m==0) return n;
+        if(n<0) return m+1;
+        if(m<0) return n+1;
+
         if(dp[n][m]!=-1) return dp[n][m];
 
-        if(s1[n-1]==s2[m-1]) return  dp[n][m]= helper(s1,s2,n-1,m-1);
 
-        else 
-        return dp[n][m]= 1 + min( min(helper(s1,s2,n-1,m-1),helper(s1,s2,n,m-1)),helper(s1,s2,n-1,m) );
+        if(s[n]==t[m]){
+            return dp[n][m] = f(n-1,m-1,s,t,dp);
+        }else{
+            int insert = 1+f(n,m-1,s,t,dp);
+            int del = 1+f(n-1,m,s,t,dp);
+            int replace = 1+f(n-1,m-1,s,t,dp);
+            return dp[n][m] = min(insert,min(del,replace));
+        }
     }
-
+public:
     int minDistance(string word1, string word2) {
-      memset(dp,-1,sizeof(dp));
-      int n = word1.size();
-      int m = word2.size();
+       int n = word1.size(); 
+       int m = word2.size(); 
+       vector<vector<int>>dp(n,vector<int>(m,-1));
 
-      return helper(word1,word2, n , m);
-
-
+       return f(n-1,m-1,word1,word2,dp);
 
     }
 };
