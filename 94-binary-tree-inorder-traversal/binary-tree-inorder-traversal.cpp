@@ -10,21 +10,17 @@
  * };
  */
 class Solution {
-public:
-
-    void help(TreeNode* root, vector<int>&ans){
-        if(root == NULL){
-            return ;
-        }
-        help(root->left,ans);
+private:    
+    void trav(TreeNode* root , vector<int> &ans){
+        if(root==NULL) return;
+        trav(root->left,ans);
         ans.push_back(root->val);
-        help(root->right,ans);
-
+        trav(root->right,ans);
     }
+public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
-
-        help(root, ans);
-        return ans ;
+        trav(root,ans);
+        return ans;
     }
 };
