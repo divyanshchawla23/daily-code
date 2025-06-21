@@ -1,8 +1,8 @@
 class Solution {
 private:    
-    bool bfs(int node,vector<vector<int>>& graph,vector<int>& col){
+    bool bfs(int node,vector<vector<int>>& graph,vector<int>& col, int c){
         queue<int> q;
-        col[node] = 0;
+        col[node] = c;
         q.push(node);
         while(!q.empty()){
             int node = q.front();
@@ -26,7 +26,7 @@ public:
 
         for(int i =0;i<n;i++){
             if (col[i] == -1) {
-                if(bfs(i,graph,col)==false) return false;
+                if(bfs(i,graph,col,0)==false) return false;
             }
         }
         return true;
