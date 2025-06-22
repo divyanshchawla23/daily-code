@@ -8,7 +8,9 @@ public:
         while (curr < n) {
             string temp = s.substr(curr, k);
             if (temp.size() < k) {
-                temp += string(k - temp.size(), fill);
+                while(temp.size()<k){
+                    temp+=fill;
+                }
             }
             res.push_back(temp);
             curr += k;
