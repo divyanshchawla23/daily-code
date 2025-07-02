@@ -10,18 +10,32 @@
  * };
  */
 class Solution {
-public:
-    void helper(TreeNode* root,vector<int> & ans, int level){
+private:
+    void helper(TreeNode* root,set<int> &st,vector<int> &ans,int level){
         if(root==NULL) return;
 
-        if(level==ans.size()) ans.push_back(root->val);
-        helper(root->right,ans,level+1);
-        helper(root->left,ans,level+1);
+        if(st.find(level)==st.end()){
+            ans.push_back(root->val);
+            st.insert(level);
+        }
+
+        helper(root->right,st,ans,level+1);
+        helper(root->left,st,ans,level+1);
+
+
     }
+public:
     vector<int> rightSideView(TreeNode* root) {
+        // {node->val,level}
+        set<int> st;
         vector<int> ans;
-        helper(root, ans , 0);
+        int level =0;
+
+        if(root==NULL) return ans;
+
+        helper(root,st,ans,level);
+
         return ans;
-        
+
     }
 };
