@@ -8,8 +8,10 @@ public:
             for(int i =0;i<n;i++){
                 if(s[i]=='z'){
                     s+='a';
+                    if(s.size()>=k) break;
                 }else{
                     s+=s[i]+1;
+                    if(s.size()>=k) break;
                 }
             }
         }
