@@ -14,9 +14,8 @@ public:
     bool helper(TreeNode* l, TreeNode* r){
         if(l==NULL|| r==NULL) return (l==r);
 
-        if(l->val!=r->val) return false;
-
-        return helper(l->left,r->right) && helper(l->right,r->left);
+        return (l->val==r->val) && helper(l->left,r->right) 
+                && helper(l->right,r->left);
     }
     bool isSymmetric(TreeNode* root) {
         
