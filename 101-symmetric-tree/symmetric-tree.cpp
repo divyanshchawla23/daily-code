@@ -20,7 +20,7 @@ public:
     }
     bool isSymmetric(TreeNode* root) {
         
-        if(!root) return true;
+        if(!root) return false;
         else return helper(root->left,root->right);
     }
 };
