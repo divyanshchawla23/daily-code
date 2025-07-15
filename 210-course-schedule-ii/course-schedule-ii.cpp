@@ -1,48 +1,46 @@
 class Solution {
 private:
-    void topoSort(int n,vector<vector<int>> &adj,vector<int>&topo){
+    bool topoSort(int node, vector<int>& vis, vector<int>& pathvis, vector<vector<int>>& adj,stack<int> &st) {
+        vis[node] = 1;
+        pathvis[node] = 1;
 
-        vector<int> inDegree(n);
-
-        queue<int> q;
-
-        for(auto adjacent: adj){
-            for(auto it : adjacent){
-                inDegree[it]++;
+        for (auto neighbor : adj[node]) {
+            if (!vis[neighbor]) {
+                if (topoSort(neighbor, vis, pathvis, adj,st)) return true;
+            } else if (pathvis[neighbor]) {
+                // Back edge found → cycle
+                return true;
             }
         }
-
-        for(int i =0;i<inDegree.size();i++){
-            if(inDegree[i]==0) q.push(i);
-        }
-
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            topo.push_back(node);
-
-            for(auto it:adj[node]){
-
-                inDegree[it]--;
-                if(inDegree[it]==0) q.push(it);
-            }
-        }
-
+        st.push(node);
+        pathvis[node] = 0;  // backtrack
+        return false;
     }
+
 public:
     vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj(n);
-
-        for(auto it: prerequisites){
-            adj[it[1]].push_back(it[0]);
+        stack<int> st;
+        for (auto& pre : prerequisites) {
+            adj[pre[1]].push_back(pre[0]);
         }
-
         vector<int> topo;
 
-        topoSort(n,adj,topo);
+        vector<int> vis(n, 0), pathvis(n, 0);
 
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]) {
+                if (topoSort(i, vis, pathvis, adj,st)) {
+                    return {}; // cycle detected
+                }
+            }
+        }
 
-        if(topo.size()==n)   return topo;
-        else return {};
+        while(!st.empty()){
+            topo.push_back(st.top());
+            st.pop();
+        }
+
+        return topo; // no cycle → can finish all courses
     }
 };
