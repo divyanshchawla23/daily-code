@@ -10,48 +10,33 @@
  * };
  */
 class Solution {
+private:
+    TreeNode* builder(vector<int>& preorder,vector<int>& inorder,int preStart,int preEnd,int inStart,int inEnd,map<int,int>&mpp){
+        if(preStart>preEnd || inStart >inEnd) return NULL;
+
+        TreeNode * root = new TreeNode(preorder[preStart]);
+
+        int indexOfRoot = mpp[preorder[preStart]];
+        int nodesLeft = indexOfRoot - inStart;
+
+        root->left = builder(preorder,inorder,preStart+1,preStart+nodesLeft,inStart,indexOfRoot-1,mpp);
+        root->right = builder(preorder,inorder,preStart+nodesLeft+1,preEnd,indexOfRoot+1,inEnd,mpp);
+
+
+        return root;
+    }
 public:
-
-    TreeNode * help(vector<int>& preorder, int preStart, int preEnd , 
-                                vector<int>& inorder, int inStart, int inEnd,
-                                map <int , int > &mpp)
-    {
-
-        if ( (preStart > preEnd) || (inStart>inEnd) )  return NULL;
-
-        TreeNode* divu = new TreeNode(preorder[preStart]);
-
-        int inRoot = mpp[preorder[preStart]];
-        int number = inRoot - inStart;
-
-        divu->left = help(preorder , preStart+ 1, preStart + number, 
-                            inorder , inStart , inRoot-1 , mpp);
-
-        divu->right = help(preorder,preStart + number +1  ,preEnd ,
-                                 inorder,inRoot+1,inEnd , mpp);
-
-
-        return divu;
-
-
-
-
-
-    }
-    
-    
-    
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        map <int , int > mpp;
-      for(int i =0;i<inorder.size();i++){
-        mpp[inorder[i]]= i ;
-      }
+        map<int,int> mpp;
 
-       TreeNode * root = help(preorder, 0 , preorder.size()-1 , 
-                                inorder , 0 , inorder.size()-1 , mpp);
+        for(int i =0;i<inorder.size();i++){
+            mpp[inorder[i]]=i;
+        }
+        int preStart = 0;
+        int preEnd = preorder.size()-1;
+        int inStart = 0;
+        int inEnd = inorder.size()-1;
 
-      return root ; 
+        return builder(preorder,inorder,preStart,preEnd,inStart,inEnd,mpp);
     }
-
-    
 };
