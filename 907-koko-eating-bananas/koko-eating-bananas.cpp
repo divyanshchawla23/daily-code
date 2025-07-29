@@ -1,40 +1,29 @@
 class Solution {
-private: 
-
-    long long maxEl(vector<int>& piles){
-        int maxi= INT_MIN;
-        for (int i =0;i<piles.size();i++){
-            maxi = max(maxi,piles[i]);
-        }
-        return maxi ;
-    }
-
-
-    long long  find(vector<int>& nums, int h){
-        long long total = 0;
-
-        for(int i =0;i<nums.size();i++){
-            total += ceil((double)nums[i]/(double)h);
-        }
-        return total;
-    }
 public:
-    int minEatingSpeed(vector<int>& piles, int h) {
+    long long helper(vector<int>&piles,int mid){
         
-        int ans = INT_MAX;
-        int low = 1;
-        int high = maxEl(piles);
-        while(low<=high){
-            int mid = low + ((high-low) /2);
+        long long  hrs =0;
+        for(int i =0;i<piles.size();i++){
+            hrs+=ceil(double(piles[i])/double(mid));
+        }
+        return hrs;
 
-            long long totalTime = find(piles,mid);
+    }
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int l =1;
+        int r = *max_element(piles.begin(),piles.end());
+        int ans =0;
 
-            if(totalTime<=h){
+        while(l<=r){
+            int mid = (l+r)/2;
+            long long totalHrs = helper(piles,mid);
+            if(totalHrs<=h){
                 ans = mid;
-                high = mid-1;
+                r =mid-1;
             }
-            
-            else low = mid+1;
+            else{
+                l = mid + 1;
+            }
         }
         return ans;
     }
