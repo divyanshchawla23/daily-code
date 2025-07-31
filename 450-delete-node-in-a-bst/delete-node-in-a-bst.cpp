@@ -11,7 +11,7 @@
  * };
  */
 class Solution {
-private:
+public:
     TreeNode* findLastRight(TreeNode* root) {
         while (root->right) {
             root = root->right;
@@ -23,13 +23,12 @@ private:
             return root->right;
         if (root->right == NULL)
             return root->left;
-        TreeNode* prevRight = findLastRight(root->left);
-        TreeNode* firstRight = root->right;
-        prevRight->right = firstRight;
+
+        TreeNode* rootRight = root->right;
+        TreeNode* lastRight = findLastRight(root->left);
+        lastRight->right = rootRight;
         return root->left;
     }
-
-public:
     TreeNode* deleteNode(TreeNode* root, int key) {
         if (root == NULL)
             return root;
@@ -37,23 +36,24 @@ public:
         if (root->val == key) {
             return helper(root);
         }
+        TreeNode* temp = root;
 
-        TreeNode* dummy = root;
-        while (root) {
-            if (root->val > key) {
-                if (root->left != NULL && root->left->val == key) {
-                    root->left = helper(root->left);
+        while (temp) {
+            if (key >= temp->val) {
+                if (temp->right && temp->right->val == key) {
+                    temp->right = helper(temp->right);
                     break;
                 } else
-                    root = root->left;
+                    temp = temp->right;
             } else {
-                if (root->right != NULL && root->right->val == key) {
-                    root->right = helper(root->right);
+
+                if (temp->left && temp->left->val == key) {
+                    temp->left = helper(temp->left);
                     break;
                 } else
-                    root = root->right;
+                    temp = temp->left;
             }
         }
-        return dummy;
+        return root;
     }
 };
