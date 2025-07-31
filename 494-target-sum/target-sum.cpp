@@ -1,40 +1,49 @@
 class Solution {
 public:
-    int f(int ind, vector<int>& arr, int target, vector<vector<int>>& dp) {
-        if (target == 0) return 1;
-        if (ind == 0) return (arr[0] == target);
-
-        if (dp[ind][target] != -1) return dp[ind][target];
-
-        int notPick = f(ind - 1, arr, target, dp);
-        int pick = 0;
-        if (arr[ind] <= target)
-            pick = f(ind - 1, arr, target - arr[ind], dp);
-
-        return dp[ind][target] = pick + notPick;
+    int helper(int n, vector<int>&nums, int target,vector<vector<int>>&dp){
+        
+        if(target==0) return 1;
+        if(n==0) return (target==nums[0]);
+        
+        if(dp[n][target]!=-1) return dp[n][target];
+        
+        int notPick = helper(n-1,nums,target,dp);
+        int pick =0;
+        if(target>=nums[n]) pick = helper(n-1,nums,target-nums[n],dp);
+        
+        return dp[n][target] = notPick+pick;
     }
-
-    int findWays(vector<int>& arr, int target) {
-        int cnt = 0;
-        vector<int> newArr;
-        for (int x : arr) {
-            if (x == 0) cnt++;      // count zeros
-            else newArr.push_back(x); // keep non-zeros
+    int perfectSum(vector<int>& arr, int target) {
+        // code here
+        vector<int> nums;
+        int cnt =0;
+        for(auto&it:arr){
+            if(it==0) cnt++;
+            else{
+                nums.push_back(it);
+            }
         }
-
-        int n = newArr.size();
-        if (target < 0) return 0;
-        if (n == 0) return (target == 0) ? pow(2, cnt) : 0;
-
-        vector<vector<int>> dp(n, vector<int>(target + 1, -1));
-        int ways = f(n - 1, newArr, target, dp);
-        return ways * pow(2, cnt);  // adjust for zeros
+        int n = nums.size();
+        if(n==0){
+            if(target==0){
+                return pow(2,cnt);
+            }else return 0;
+        }
+        vector<vector<int>>dp(n,vector<int>(target+1,-1));
+        int ans = helper(n-1,nums,target,dp);
+        return pow(2,cnt)*ans;
     }
-
+    int countPartitions(vector<int>& arr, int d) {
+        int tot = 0;
+        for(auto&it:arr){
+            tot+=it;
+        }
+        int x = tot-d;
+        if(x<0 || x%2!=0) return 0;
+        return perfectSum(arr,x/2);
+        
+    }
     int findTargetSumWays(vector<int>& nums, int target) {
-        int totalSum = accumulate(nums.begin(), nums.end(), 0);
-        int x = totalSum - target;
-        if (x < 0 || x % 2 != 0) return 0;
-        return findWays(nums, x / 2);
+        return countPartitions(nums,target);
     }
 };
