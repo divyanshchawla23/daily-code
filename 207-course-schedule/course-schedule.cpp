@@ -1,38 +1,46 @@
 class Solution {
 public:
-    bool cycle(int node, vector<int> &vis,vector<int> &pvis,vector<vector<int>> &adj){
-        vis[node]=1;
-        pvis[node]=1;
+    bool topoSort(int node, vector<int>& vis, vector<int>& pathvis, vector<vector<int>>& adj,stack<int> &st) {
+        vis[node] = 1;
+        pathvis[node] = 1;
 
-        for(auto it: adj[node]){
-            if(!vis[it]){
-               if(cycle(it,vis,pvis,adj)) return true;
-            }else if(pvis[it]){
+        for (auto neighbor : adj[node]) {
+            if (!vis[neighbor]) {
+                if (topoSort(neighbor, vis, pathvis, adj,st)) return true;
+            } else if (pathvis[neighbor]) {
+                // Back edge found → cycle
                 return true;
             }
         }
-
-        pvis[node]=0;
+        st.push(node);
+        pathvis[node] = 0;  // backtrack
         return false;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         int n = numCourses;
-
         vector<vector<int>> adj(n);
-
-        for(auto it: prerequisites){
-            adj[it[1]].push_back(it[0]);
+        stack<int> st;
+        for (auto& pre : prerequisites) {
+            adj[pre[1]].push_back(pre[0]);
         }
-        vector<int> vis(n,0);
-        vector<int> pvis(n,0);
+        vector<int> topo;
 
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                if(cycle(i,vis,pvis,adj)) return false;
+        vector<int> vis(n, 0), pathvis(n, 0);
+
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]) {
+                if (topoSort(i, vis, pathvis, adj,st)) {
+                    return false; // cycle detected
+                }
             }
         }
 
-        return true;
+        while(!st.empty()){
+            topo.push_back(st.top());
+            st.pop();
+        }
+
+        return true; // no cycle → can finish all courses
 
 
     }
