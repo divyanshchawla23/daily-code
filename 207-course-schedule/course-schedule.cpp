@@ -1,41 +1,39 @@
 class Solution {
-private:
-    bool dfs(int node, vector<int>& vis, vector<int>& pathvis,
-             vector<vector<int>>& adj) {
-        vis[node] = 1;
-        pathvis[node] = 1;
+public:
+    bool cycle(int node, vector<int> &vis,vector<int> &pvis,vector<vector<int>> &adj){
+        vis[node]=1;
+        pvis[node]=1;
 
-        for (auto it : adj[node]) {
-            if (!vis[it]) {
-                if (dfs(it, vis, pathvis, adj))
-                    return true;
-            } else if (pathvis[it]) {
+        for(auto it: adj[node]){
+            if(!vis[it]){
+               if(cycle(it,vis,pvis,adj)) return true;
+            }else if(pvis[it]){
                 return true;
             }
         }
 
-        pathvis[node] = 0;
+        pvis[node]=0;
         return false;
     }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int n = numCourses;
 
-public:
-    bool canFinish(int n, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj(n);
 
-        for (int i = 0; i < prerequisites.size(); i++) {
-            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        for(auto it: prerequisites){
+            adj[it[1]].push_back(it[0]);
         }
+        vector<int> vis(n,0);
+        vector<int> pvis(n,0);
 
-        vector<int> vis(n, 0);
-        vector<int> pathvis(n, 0);
-
-        for (int i = 0; i < n; i++) {
-            if (!vis[i]) {
-                if (dfs(i, vis, pathvis, adj) == true)
-                    return false;
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                if(cycle(i,vis,pvis,adj)) return false;
             }
         }
 
         return true;
+
+
     }
 };
