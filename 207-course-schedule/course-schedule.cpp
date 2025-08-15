@@ -1,47 +1,41 @@
 class Solution {
 public:
-    bool topoSort(int node, vector<int>& vis, vector<int>& pathvis, vector<vector<int>>& adj,stack<int> &st) {
-        vis[node] = 1;
-        pathvis[node] = 1;
-
-        for (auto neighbor : adj[node]) {
-            if (!vis[neighbor]) {
-                if (topoSort(neighbor, vis, pathvis, adj,st)) return true;
-            } else if (pathvis[neighbor]) {
-                // Back edge found → cycle
-                return true;
-            }
-        }
-        st.push(node);
-        pathvis[node] = 0;  // backtrack
-        return false;
-    }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         int n = numCourses;
+
         vector<vector<int>> adj(n);
-        stack<int> st;
-        for (auto& pre : prerequisites) {
-            adj[pre[1]].push_back(pre[0]);
+        
+        for(auto it: prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+
+        queue<int>q;
+        vector<int> inDegree(n,0);
+
+        for(int i =0;i<n;i++){
+            for(auto it: adj[i]){
+                inDegree[it]++;
+            }
+        }
+
+        for(int i =0;i<n;i++){
+            if(inDegree[i]==0){
+                q.push(i);
+            }
         }
         vector<int> topo;
-
-        vector<int> vis(n, 0), pathvis(n, 0);
-
-        for (int i = 0; i < n; ++i) {
-            if (!vis[i]) {
-                if (topoSort(i, vis, pathvis, adj,st)) {
-                    return false; // cycle detected
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto it: adj[node]){
+                inDegree[it]--;
+                if(inDegree[it]==0){
+                    q.push(it);
                 }
             }
         }
-
-        while(!st.empty()){
-            topo.push_back(st.top());
-            st.pop();
-        }
-
-        return true; // no cycle → can finish all courses
-
-
+        if(topo.size()==n) return true;
+        else return false;
     }
 };
