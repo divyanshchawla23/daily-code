@@ -4,14 +4,14 @@ public:
         int n = matrix.size();
         int m = matrix[0].size();
 
-        vector<int> maxEl(m, INT_MIN);
+        vector<int> maxEl;
 
         for (int j = 0; j < m; j++) {
             int maxi = INT_MIN;
             for (int i = 0; i < n; i++) {
                 maxi = max(maxi, matrix[i][j]);
             }
-            maxEl[j] = maxi;
+            maxEl.push_back(maxi);
         }
 
         for (int i = 0; i < n; i++) {
