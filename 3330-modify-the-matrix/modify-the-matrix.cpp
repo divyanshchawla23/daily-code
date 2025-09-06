@@ -21,6 +21,14 @@ public:
                 }
             }
         }
+        for (int i = n-1; i >=0 ; i--) {
+            for (int j = m-1; j >= 0; j--) {
+                if (matrix[i][j] == -1) {
+                    matrix[i][j] = maxEl.back();
+                    maxEl.pop_back();
+                }
+            }
+        }
 
         return matrix;
     }
