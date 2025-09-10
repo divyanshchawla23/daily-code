@@ -17,8 +17,7 @@ public:
         while(right<=n){
             if(right == n || s[right] == ' '){
                 reverseWord(s,left,right-1);
-                right++;
-                left = right;
+                left = right+1;
             }
             right++;
         }
