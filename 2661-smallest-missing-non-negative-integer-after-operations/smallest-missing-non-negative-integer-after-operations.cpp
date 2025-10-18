@@ -5,7 +5,11 @@ public:
         map<int, int> mpp;
 
         for (auto& it : nums) {
-            int r = ((it % value) + value) % value;
+            int r = -1;
+            if(it<0){
+                r = ((it % value) + value) % value;
+            }
+            else r = (it % value);
 
             mpp[r]++;
         }
