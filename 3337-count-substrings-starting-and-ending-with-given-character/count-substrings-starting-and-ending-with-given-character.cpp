@@ -1,0 +1,16 @@
+class Solution {
+public:
+    long long countSubstrings(string s, char c) {
+        long long cnt = 0;
+        long long ans =0;
+
+        for(auto it: s){
+            if(it==c){
+                ans+= cnt+1;
+                cnt++;
+            }
+        }
+
+        return ans;
+    }
+};
