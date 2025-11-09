@@ -53,31 +53,29 @@ public:
 
         while(temp){
 
-            ListNode* KthNode = kThNodeutil(temp,k);
+            ListNode* kthNode = kThNodeutil(temp,k);
 
-            if(KthNode==NULL){
-
-                if(before!=NULL){
+            if(kthNode==NULL){
+                if(before){
                     before->next = temp;
                 }
                 break;
             }
 
-            after = KthNode->next;
-            KthNode -> next = NULL;
+            ListNode* after = kthNode->next;
+            kthNode->next = NULL;
 
             reverse(temp);
 
             if(temp==head){
-                head = KthNode;
+                head = kthNode;
             }
             else{
-                before -> next = KthNode;
+                before->next = kthNode;
             }
 
             before = temp;
             temp = after;
-
         }
 
 
