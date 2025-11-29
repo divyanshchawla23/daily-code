@@ -8,7 +8,7 @@ public:
             if(it!=parent){
 
                 sum+=dfs(it,node,adj,values,k,cnt);
-                
+                sum = sum%k;
 
             }
 
