@@ -21,9 +21,13 @@ public:
         // [1,2],[2,4],[3,2],[3,5],[5,6]
         sort(items.begin(),items.end());
         int maxi = items[0][1];
-        for(auto &it: items){
-            it[1]=max(maxi,it[1]);
-            maxi = max(maxi,it[1]);
+        // for(auto &it: items){
+        //     it[1]=max(maxi,it[1]);
+        //     maxi = max(maxi,it[1]);
+        // }
+        for(int i = 1 ;i<items.size();i++){
+            items[i][1] = max(maxi,items[i][1]);
+            maxi = items[i][1];
         }
         vector<int> ans;
 
