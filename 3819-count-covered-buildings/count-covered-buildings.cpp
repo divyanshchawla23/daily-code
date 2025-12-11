@@ -3,8 +3,8 @@ public:
     int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
         int ans = 0;
 
-        map<int, pair<int, int>> mpp1;
-        map<int, pair<int, int>> mpp2;
+        map<int, pair<int, int>> mpp1; // X -> min,max Y
+        map<int, pair<int, int>> mpp2; // Y-> min,max X
 
         for (auto& it : buildings) {
 
