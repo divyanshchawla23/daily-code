@@ -11,11 +11,11 @@ public:
             int x = it[0];
             int y = it[1];
 
-            if (!mpp1.count(x)) {
+            if (mpp1.find(x) == mpp1.end()) {
                 mpp1[x].first = INT_MAX;
                 mpp1[x].second = INT_MIN;
             }
-            if (!mpp2.count(y)) {
+            if (mpp2.find(y) == mpp2.end()) {
                 mpp2[y].first = INT_MAX;
                 mpp2[y].second = INT_MIN;
             }
@@ -26,6 +26,7 @@ public:
             mpp2[y].first = min(mpp2[y].first, x);
             mpp2[y].second = max(mpp2[y].second, x);
         }
+
 
 
         for (auto& it : buildings) {
