@@ -23,7 +23,7 @@ public:
         stringstream ss(event[2]);
         string s;
 
-        while (ss>>s) {
+        while (getline(ss,s,' ')) {
             id.push_back(s);
         }
 
