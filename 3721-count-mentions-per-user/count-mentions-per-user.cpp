@@ -29,9 +29,12 @@ public:
 
         for (auto& it : id) {
             if (it == "ALL") {
-                for (int i =0;i<ans.size();i++) {
-                    ans[i]++;
+                for(auto &ii: ans){
+                    ii++;
                 }
+                // for (int i =0;i<ans.size();i++) {
+                //     ans[i]++;
+                // }
             } else if (it == "HERE") {
                 for (int i =0;i<offlineTime.size();i++) {
                     if (offlineTime[i] == 0 || offlineTime[i] + 60 <= ts) {
