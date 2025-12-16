@@ -1,7 +1,8 @@
 class Solution {
 public:
-    int dfs(int i,int j,vector<vector<int>>& grid,vector<vector<int>>& vis,int n,int m,int drow[],int dcol[]){
-        vis[i][j]=1;
+    int dfs(int i,int j,vector<vector<int>>& grid,int n,int m,int drow[],int dcol[]){
+        //vis[i][j]=1;
+        grid[i][j]= 0;
 
         int size = 1;
 
@@ -10,8 +11,8 @@ public:
             int ncol = j + dcol[ind];
 
             if(nrow>=0 && nrow<n && ncol>=0 && ncol<m){
-                if(grid[nrow][ncol]==1 && !vis[nrow][ncol]){
-                    size += dfs(nrow,ncol,grid,vis,n,m,drow,dcol);
+                if(grid[nrow][ncol]==1){
+                    size += dfs(nrow,ncol,grid,n,m,drow,dcol);
                 }
             }
         }
@@ -24,12 +25,12 @@ public:
         int n = grid.size();
         int m = grid[0].size();
         int maxi = 0;
-        vector<vector<int>> vis(n,vector<int>(m,0));
+        //vector<vector<int>> vis(n,vector<int>(m,0));
 
         for(int i =0;i<n;i++){
             for(int j =0;j<m;j++){
                 if(grid[i][j]==1){
-                    int size = dfs(i,j,grid,vis,n,m,drow,dcol);
+                    int size = dfs(i,j,grid,n,m,drow,dcol);
                     maxi = max(maxi,size);
                 }
             }
