@@ -46,8 +46,7 @@ public:
         map<TreeNode*, TreeNode*> mpp; // node -> parent
         levelOrder(root, levels, mpp);
 
-        vector<TreeNode*> last = levels.back();
-        set<TreeNode*> st(last.begin(), last.end());
+        set<TreeNode*> st(levels.back().begin(), levels.back().end());
 
         while (st.size() > 1) {
             set<TreeNode*> s;
