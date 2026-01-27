@@ -23,9 +23,6 @@ public:
             int node = pq.top().second;
             int d = pq.top().first;
             pq.pop();
-            if (d > dis[node])
-                continue;
-
             for (auto it : adj[node]) {
 
                 if (dis[node] + it.second < dis[it.first]) {
